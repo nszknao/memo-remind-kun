@@ -1,2 +1,0 @@
-line-bot-sdk==1.13.0
-google-cloud-firestore==1.4.0
