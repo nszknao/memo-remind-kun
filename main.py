@@ -2,9 +2,6 @@ import os
 import requests
 import json
 import datetime
-import base64
-import hashlib
-import hmac
 from linebot import (
   LineBotApi, WebhookHandler
 )
@@ -19,7 +16,6 @@ from google.oauth2 import id_token
 from google.auth import transport
 
 db = firestore.Client()
-access_token = db.collection('config').document('access_token').get().to_dict()['access_token']
 handler = WebhookHandler(os.environ['LINE_CHANNEL_SECRET'])
 
 
@@ -88,6 +84,7 @@ def handle_message(event):
         )
     batch.commit()
     # completion message
+    access_token = db.collection('config').document('access_token').get().to_dict()['access_token']
     line_bot_api = LineBotApi(access_token)
     line_bot_api.reply_message(
         event.reply_token,
@@ -95,6 +92,7 @@ def handle_message(event):
     )
 
 def remind(request):
+    # TODO: テキストの整形
     """Responds to any HTTP request.
     Args:
         request (flask.Request): HTTP request object.
@@ -111,6 +109,7 @@ def remind(request):
     except Exception as e:
         return 'Invalid token', 400
 
+    access_token = db.collection('config').document('access_token').get().to_dict()['access_token']
     line_bot_api = LineBotApi(access_token)
 
     today = datetime.datetime.now().strftime('%Y-%m-%d')
