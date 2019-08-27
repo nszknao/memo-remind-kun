@@ -28,7 +28,7 @@ def _auth(bearer_token):
     if claim['email'] != os.environ['GCP_APP_ENGINE_DEFAULT_SERVICE_ACCOUNT']:
         raise ValueError('Wrong service account.')
 
-def callback(request):
+def webhook(request):
     """Responds to any HTTP request.
     Args:
         request (flask.Request): HTTP request object.
